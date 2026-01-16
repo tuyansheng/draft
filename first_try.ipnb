@@ -1,0 +1,54 @@
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# 简单的去噪网络 (MLP)
+class SimpleDenoiser(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(1, 64),
+            nn.ReLU(),
+            nn.Linear(64, 64),
+            nn.ReLU(),
+            nn.Linear(64, 1)
+        )
+    def forward(self, x, t):
+        # 这里简单地忽略 t，只做去噪
+        return self.net(x)
+
+# 生成训练数据 (目标分布: 正态分布 N(0,1))
+data = torch.randn(1000, 1)
+
+# 定义模型和优化器
+model = SimpleDenoiser()
+optimizer = optim.Adam(model.parameters(), lr=1e-3)
+loss_fn = nn.MSELoss()
+
+# 训练过程
+timesteps = 100
+for epoch in range(50):
+    for x0 in data:
+        x0 = x0.unsqueeze(0)
+        t = torch.randint(0, timesteps, (1,))
+        noise = torch.randn_like(x0)
+        # 加噪声 (简单线性噪声调度)
+        alpha = 1 - t.float()/timesteps
+        xt = alpha * x0 + (1-alpha) * noise
+        # 预测噪声
+        pred_noise = model(xt, t)
+        loss = loss_fn(pred_noise, noise)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+    if epoch % 10 == 0:
+        print(f"Epoch {epoch}, Loss {loss.item():.4f}")
+
+# 采样过程 (从纯噪声开始逐步去噪)
+x = torch.randn(1,1)
+for t in reversed(range(timesteps)):
+    alpha = 1 - t/ timesteps
+    pred_noise = model(x, torch.tensor([t]))
+    x = (x - (1-alpha) * pred_noise) / alpha
+
+print("生成样本:", x.item())
