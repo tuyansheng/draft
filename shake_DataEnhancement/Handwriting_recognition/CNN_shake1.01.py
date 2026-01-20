@@ -129,7 +129,7 @@ if __name__ == "__main__":
 
     # 设置MNIST训练集和验证集
     # 替换为使用ShakeAugDataset
-    mnist = MNIST(root="/home/yansheng/shake_DataEnhancement/data", train=True, download=True, transform=ToTensor())
+    mnist = MNIST(root="/home/ystu/research_code/Machine_Learning/shake_DataEnhancement/Handwriting_recognition", train=True, download=True, transform=ToTensor())
     recipe = [ShakeRecipe(N=2, beta=0.5, alpha=0.3, S=(4,4))] # 定义Shake配方
     dataset = ShakeAugDataset(base=mnist, recipes=recipe, include_original=True, dynamic=True, base_seed=0, apply_in_getitem=True)
     N_data = len(dataset)

@@ -1,0 +1,23 @@
+/home/ystu/ddp_speed_bench.py:155: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=use_fp16)
+/home/ystu/ddp_speed_bench.py:169: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=autocast_enabled, dtype=amp_dtype):
+/home/ystu/ddp_speed_bench.py:195: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=autocast_enabled, dtype=amp_dtype):
+================================================================================
+DDP Speed Benchmark
+World Size           : 1
+Per-GPU Batch Size    : 1
+Global Batch Size     : 1
+Input Shape           : (1, 3, 224, 224) per GPU
+Model                 : SimpleConvNet(base_channels=64, depth=8)
+Optimizer             : adamw lr=0.001
+AMP                   : fp16
+torch.compile         : False
+cudnn.benchmark       : False
+--------------------------------------------------------------------------------
+Step Time mean (s)    : 0.014384
+Step Time p50  (s)    : 0.014384
+Step Time p90  (s)    : 0.014398
+Throughput (samples/s): 69.52
+================================================================================
