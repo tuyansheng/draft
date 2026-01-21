@@ -1,0 +1,43 @@
+Args: ['CNN_shake1.09_test.py']
+Using device: cuda
+Starting training plain model...
+Epoch  1 | Test(Plain): 90.66%
+Epoch  2 | Test(Plain): 92.75%
+Epoch  3 | Test(Plain): 94.29%
+Epoch  4 | Test(Plain): 95.57%
+Epoch  5 | Test(Plain): 96.14%
+Starting training aug model...
+Epoch  1 | Test(Aug): 93.90%
+Epoch  2 | Test(Aug): 96.40%
+Epoch  3 | Test(Aug): 97.46%
+Epoch  4 | Test(Aug): 98.08%
+Epoch  5 | Test(Aug): 98.16%
+
+================ ShakeAug Configuration ================
+
+[ShakeRecipe]
+Recipe 0:
+  N: 2
+  beta: 0.5
+  alpha: 0.3
+  S: (4, 4)
+  offset: random
+  p_apply: 1.0
+
+[ShakeAugDataset]
+  include_original: True
+  dynamic: True
+  base_seed: 0
+  apply_in_getitem: False
+  base_dataset: MNIST
+  dataset_length: 120000
+
+[ShakeAugBatchCollator]
+  num_recipes: 1
+
+[DataLoader]
+  batch_size: 256
+  num_workers: 4
+  pin_memory: True
+========================================================
+
