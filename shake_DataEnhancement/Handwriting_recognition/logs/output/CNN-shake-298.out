@@ -1,0 +1,14 @@
+Args: ['CNN_shake1.09.py']
+Using device: cuda
+Starting training plain model...
+Epoch  1 | Test(Plain): 90.46%
+Epoch  2 | Test(Plain): 92.90%
+Epoch  3 | Test(Plain): 94.81%
+Epoch  4 | Test(Plain): 95.96%
+Epoch  5 | Test(Plain): 96.65%
+Starting training aug model...
+Epoch  1 | Test(Aug): 93.29%
+Epoch  2 | Test(Aug): 96.32%
+Epoch  3 | Test(Aug): 97.28%
+Epoch  4 | Test(Aug): 97.82%
+Epoch  5 | Test(Aug): 98.02%
