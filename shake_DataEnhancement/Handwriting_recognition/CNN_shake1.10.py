@@ -131,7 +131,7 @@ if __name__ == "__main__":
     # =========================
     # Rotation DataLoader（batch 级）
     # =========================
-    rotation_collate_fn = RotationBatchCollator(degrees=(-180, 180))
+    rotation_collate_fn = RotationBatchCollator(degrees=(0, 15))
 
     train_loader_rotation = DataLoader(
         train_base,

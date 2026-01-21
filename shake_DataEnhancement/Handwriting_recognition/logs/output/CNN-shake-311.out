@@ -1,0 +1,20 @@
+Args: ['CNN_shake1.10.py']
+Using device: cuda
+Starting training plain model...
+Epoch  1 | Test(Plain): 90.67%
+Epoch  2 | Test(Plain): 93.16%
+Epoch  3 | Test(Plain): 94.78%
+Epoch  4 | Test(Plain): 95.85%
+Epoch  5 | Test(Plain): 96.78%
+Starting training ShakeAug model...
+Epoch  1 | Test(ShakeAug): 92.11%
+Epoch  2 | Test(ShakeAug): 94.85%
+Epoch  3 | Test(ShakeAug): 96.60%
+Epoch  4 | Test(ShakeAug): 97.41%
+Epoch  5 | Test(ShakeAug): 97.95%
+Starting training Rotation model...
+Epoch  1 | Test(Rotation): 90.14%
+Epoch  2 | Test(Rotation): 92.38%
+Epoch  3 | Test(Rotation): 94.25%
+Epoch  4 | Test(Rotation): 95.50%
+Epoch  5 | Test(Rotation): 96.35%
