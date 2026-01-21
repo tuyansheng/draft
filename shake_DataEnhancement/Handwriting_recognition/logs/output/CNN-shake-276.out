@@ -1,0 +1,12 @@
+Args: ['CNN_shake1.08.py']
+Using device: cuda
+Epoch  1 | Test(Plain): 90.98%
+Epoch  2 | Test(Plain): 93.21%
+Epoch  3 | Test(Plain): 95.02%
+Epoch  4 | Test(Plain): 96.23%
+Epoch  5 | Test(Plain): 97.09%
+Epoch  1 | Test(Aug): 91.31%
+Epoch  2 | Test(Aug): 93.71%
+Epoch  3 | Test(Aug): 95.22%
+Epoch  4 | Test(Aug): 96.52%
+Epoch  5 | Test(Aug): 96.95%
