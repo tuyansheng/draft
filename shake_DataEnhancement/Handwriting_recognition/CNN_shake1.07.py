@@ -72,10 +72,10 @@ if __name__ == "__main__":
         apply_in_getitem=True
     )
 
-    train_loader_plain = DataLoader(train_base, batch_size=256, shuffle=True)
-    train_loader_aug = DataLoader(train_aug, batch_size=512, shuffle=True)
+    train_loader_plain = DataLoader(train_base, batch_size=64, shuffle=True)
+    train_loader_aug = DataLoader(train_aug, batch_size=128, shuffle=True)
 
-    test_loader = DataLoader(test_base, batch_size=512, shuffle=False)
+    test_loader = DataLoader(test_base, batch_size=64, shuffle=False)
 
     # =========================
     # 两个模型 & 优化器
