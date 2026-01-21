@@ -1,0 +1,68 @@
+Args: ['CNN_shake1.11.py']
+Using device: cuda
+Training Plain model...
+Epoch 1 | Plain Acc: 90.71%
+Epoch 2 | Plain Acc: 93.23%
+Epoch 3 | Plain Acc: 95.22%
+Epoch 4 | Plain Acc: 96.13%
+Epoch 5 | Plain Acc: 96.93%
+Training ShakeAug model...
+Epoch 1 | ShakeAug Acc: 93.17%
+Epoch 2 | ShakeAug Acc: 95.74%
+Epoch 3 | ShakeAug Acc: 96.95%
+Epoch 4 | ShakeAug Acc: 97.63%
+Epoch 5 | ShakeAug Acc: 97.99%
+Training Rotation model...
+Epoch 1 | Rotation Acc: 90.40%
+Epoch 2 | Rotation Acc: 91.81%
+Epoch 3 | Rotation Acc: 93.62%
+Epoch 4 | Rotation Acc: 94.70%
+Epoch 5 | Rotation Acc: 95.35%
+
+================ Auto Experiment Summary ================
+
+[Model]
+ConvNet(
+  (conv1): Conv2d(1, 10, kernel_size=(5, 5), stride=(1, 1))
+  (conv2): Conv2d(10, 20, kernel_size=(3, 3), stride=(1, 1))
+  (fc1): Linear(in_features=2000, out_features=500, bias=True)
+  (fc2): Linear(in_features=500, out_features=10, bias=True)
+)
+Total params: 1007590
+Trainable params: 1007590
+
+[Dataset]
+Class: MNIST
+Length: 60000
+Library: torchvision.datasets
+
+[ShakeAug]
+Recipe 0:
+  N: 2
+  beta: 0.5
+  alpha: 0.3
+  S: (4, 4)
+  offset: random
+  p_apply: 1.0
+
+[Rotation Augmentation]
+Degrees range: (0, 5)
+Max rotation angle: 5
+
+[Training]
+Batch size: 256
+Epochs: 5
+Optimizer: Adam
+  lr: 0.0001
+  betas: (0.9, 0.999)
+  eps: 1e-08
+  weight_decay: 0
+  amsgrad: False
+  maximize: False
+  foreach: None
+  capturable: False
+  differentiable: False
+  fused: None
+  decoupled_weight_decay: False
+=========================================================
+

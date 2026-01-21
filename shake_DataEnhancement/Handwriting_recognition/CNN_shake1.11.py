@@ -57,7 +57,7 @@ def accuracy(model, device, loader):
 # Batch 级旋转增强 Collator
 # =========================
 class RotationBatchCollator:
-    def __init__(self, degrees=(0, 15)):
+    def __init__(self, degrees=(0, 5)):
         self.degrees = degrees
 
     def __call__(self, batch):
@@ -100,9 +100,8 @@ def print_shakeaug_info(recipes):
 
 def print_rotation_info(rotation_collator):
     print("\n[Rotation Augmentation]")
-    if hasattr(rotation_collator, "degrees"):
-        print(f"Degrees range: {rotation_collator.degrees}")
-        print(f"Max rotation angle: {max(rotation_collator.degrees)}")
+    print(f"Degrees range: {rotation_collator.degrees}")
+    print(f"Max rotation angle: {max(rotation_collator.degrees)}")
 
 
 def print_training_info(loader, optimizer, epochs):
@@ -134,7 +133,9 @@ if __name__ == "__main__":
     ]
 
     # DataLoader
-    train_loader_plain = DataLoader(train_base, batch_size=256, shuffle=True, num_workers=4, pin_memory=True)
+    train_loader_plain = DataLoader(
+        train_base, batch_size=256, shuffle=True, num_workers=4, pin_memory=True
+    )
 
     train_aug = ShakeAugDataset(
         base=train_base,
@@ -145,15 +146,13 @@ if __name__ == "__main__":
         apply_in_getitem=False,
     )
 
-    shake_collate_fn = ShakeAugBatchCollator(recipes)
-
     train_loader_aug = DataLoader(
         train_aug,
         batch_size=256,
         shuffle=True,
         num_workers=4,
         pin_memory=True,
-        collate_fn=shake_collate_fn,
+        collate_fn=ShakeAugBatchCollator(recipes),
     )
 
     rotation_collate_fn = RotationBatchCollator(degrees=(0, 5))
@@ -167,9 +166,11 @@ if __name__ == "__main__":
         collate_fn=rotation_collate_fn,
     )
 
-    test_loader = DataLoader(test_base, batch_size=512, shuffle=False, num_workers=4, pin_memory=True)
+    test_loader = DataLoader(
+        test_base, batch_size=512, shuffle=False, num_workers=4, pin_memory=True
+    )
 
-    # 三个模型 & 优化器
+    # 模型 & 优化器
     model_plain = ConvNet().to(device)
     model_aug = ConvNet().to(device)
     model_rotation = ConvNet().to(device)
@@ -183,24 +184,13 @@ if __name__ == "__main__":
     num_epochs = 5
 
     # =========================
-    # 自动输出实验配置
-    # =========================
-    print("\n================ Auto Experiment Summary ================")
-    print_model_info(model_plain)
-    print_dataset_info(train_base)
-    print_shakeaug_info(recipes)
-    print_rotation_info(rotation_collate_fn)
-    print_training_info(train_loader_plain, optimizer_plain, num_epochs)
-    print("=========================================================\n")
-
-    # =========================
     # 训练
     # =========================
     print("Training Plain model...")
     for epoch in range(num_epochs):
         model_plain.train()
         for x, y in train_loader_plain:
-            x, y = x.to(device), y.to(device)
+            x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
             optimizer_plain.zero_grad()
             loss = criterion(model_plain(x), y)
             loss.backward()
@@ -212,7 +202,7 @@ if __name__ == "__main__":
         train_aug.set_epoch(epoch)
         model_aug.train()
         for x, y in train_loader_aug:
-            x, y = x.to(device), y.to(device)
+            x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
             optimizer_aug.zero_grad()
             loss = criterion(model_aug(x), y)
             loss.backward()
@@ -223,12 +213,23 @@ if __name__ == "__main__":
     for epoch in range(num_epochs):
         model_rotation.train()
         for x, y in train_loader_rotation:
-            x, y = x.to(device), y.to(device)
+            x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
             optimizer_rotation.zero_grad()
             loss = criterion(model_rotation(x), y)
             loss.backward()
             optimizer_rotation.step()
         print(f"Epoch {epoch+1} | Rotation Acc: {accuracy(model_rotation, device, test_loader)*100:.2f}%")
+
+    # =========================
+    # 自动输出实验配置（放在最后）
+    # =========================
+    print("\n================ Auto Experiment Summary ================")
+    print_model_info(model_plain)
+    print_dataset_info(train_base)
+    print_shakeaug_info(recipes)
+    print_rotation_info(rotation_collate_fn)
+    print_training_info(train_loader_plain, optimizer_plain, num_epochs)
+    print("=========================================================\n")
 
     # 保存模型
     os.makedirs("checkpoint", exist_ok=True)
