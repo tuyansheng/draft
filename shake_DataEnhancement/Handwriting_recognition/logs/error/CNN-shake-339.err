@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/ystu/research_code/Machine_Learning/shake_DataEnhancement/Handwriting_recognition/CNN_shake1.13.py", line 190, in <module>
+    train_aug = ShakeAugDataset(train_base, recipes, True, True, 0, False)
+TypeError: ShakeAugDataset.__init__() takes 3 positional arguments but 7 were given

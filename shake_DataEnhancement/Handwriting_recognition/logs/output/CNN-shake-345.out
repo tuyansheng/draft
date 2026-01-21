@@ -1,0 +1,61 @@
+Args: ['CNN_shake1.13.py']
+Using device: cuda
+Training Plain model...
+Epoch 1 | Plain Acc: 91.15%
+Epoch 2 | Plain Acc: 93.01%
+Epoch 3 | Plain Acc: 94.88%
+Epoch 4 | Plain Acc: 95.64%
+Epoch 5 | Plain Acc: 96.78%
+Training ShakeAug model...
+Epoch 1 | ShakeAug Acc: 95.08%
+Epoch 2 | ShakeAug Acc: 96.82%
+Epoch 3 | ShakeAug Acc: 97.64%
+Epoch 4 | ShakeAug Acc: 98.08%
+Epoch 5 | ShakeAug Acc: 98.24%
+Training RandomRotation model...
+Epoch 1 | RandomRotation Acc: 90.49%
+Epoch 2 | RandomRotation Acc: 93.26%
+Epoch 3 | RandomRotation Acc: 95.31%
+Epoch 4 | RandomRotation Acc: 96.35%
+Epoch 5 | RandomRotation Acc: 96.70%
+Training RandomHorizontalFlip model...
+Epoch 1 | RandomHorizontalFlip Acc: 88.86%
+Epoch 2 | RandomHorizontalFlip Acc: 91.63%
+Epoch 3 | RandomHorizontalFlip Acc: 93.15%
+Epoch 4 | RandomHorizontalFlip Acc: 94.44%
+Epoch 5 | RandomHorizontalFlip Acc: 95.68%
+Training RandomResizedCrop model...
+Epoch 1 | RandomResizedCrop Acc: 85.44%
+Epoch 2 | RandomResizedCrop Acc: 90.73%
+Epoch 3 | RandomResizedCrop Acc: 94.46%
+Epoch 4 | RandomResizedCrop Acc: 95.45%
+Epoch 5 | RandomResizedCrop Acc: 96.34%
+
+================ Module Configuration Summary ================
+
+[ShakeAug]
+Recipe 0:
+  N: 2
+  beta: 0.5
+  alpha: 0.3
+  S: (4, 4)
+  offset: random
+  p_apply: 1.0
+
+[RandomRotation]
+  degrees: (0, 5)
+
+[RandomHorizontalFlip]
+  p: 0.1
+
+[RandomResizedCrop]
+  size: 28
+  scale: (0.8, 1.0)
+  ratio: (0.9, 1.1)
+
+[DataLoader]
+  batch_size: 256
+  num_workers: 4
+  pin_memory: True
+==============================================================
+

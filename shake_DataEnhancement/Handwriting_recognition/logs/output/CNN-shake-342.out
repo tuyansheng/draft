@@ -1,0 +1,32 @@
+Args: ['CNN_shake1.13.py']
+Using device: cuda
+Training Plain model...
+Epoch 1 | Plain Acc: 90.40%
+Epoch 2 | Plain Acc: 92.24%
+Epoch 3 | Plain Acc: 93.77%
+Epoch 4 | Plain Acc: 95.07%
+Epoch 5 | Plain Acc: 95.89%
+Training ShakeAug model...
+Epoch 1 | ShakeAug Acc: 92.20%
+Epoch 2 | ShakeAug Acc: 94.69%
+Epoch 3 | ShakeAug Acc: 96.61%
+Epoch 4 | ShakeAug Acc: 97.35%
+Epoch 5 | ShakeAug Acc: 97.92%
+Training RandomRotation model...
+Epoch 1 | RandomRotation Acc: 91.20%
+Epoch 2 | RandomRotation Acc: 93.60%
+Epoch 3 | RandomRotation Acc: 95.13%
+Epoch 4 | RandomRotation Acc: 96.20%
+Epoch 5 | RandomRotation Acc: 96.87%
+Training RandomHorizontalFlip model...
+Epoch 1 | RandomHorizontalFlip Acc: 89.10%
+Epoch 2 | RandomHorizontalFlip Acc: 92.04%
+Epoch 3 | RandomHorizontalFlip Acc: 93.87%
+Epoch 4 | RandomHorizontalFlip Acc: 94.88%
+Epoch 5 | RandomHorizontalFlip Acc: 95.88%
+Training RandomResizedCrop model...
+Epoch 1 | RandomResizedCrop Acc: 86.43%
+Epoch 2 | RandomResizedCrop Acc: 92.92%
+Epoch 3 | RandomResizedCrop Acc: 93.94%
+Epoch 4 | RandomResizedCrop Acc: 96.12%
+Epoch 5 | RandomResizedCrop Acc: 96.11%
