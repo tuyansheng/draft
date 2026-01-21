@@ -1,6 +1,0 @@
-Using device: cuda
-Epoch  1 | Test(Aug): 92.51% | Test(Plain): 92.53%
-Epoch  2 | Test(Aug): 95.75% | Test(Plain): 95.77%
-Epoch  3 | Test(Aug): 97.17% | Test(Plain): 97.16%
-Epoch  4 | Test(Aug): 97.79% | Test(Plain): 97.78%
-Epoch  5 | Test(Aug): 98.14% | Test(Plain): 98.15%
