@@ -1,0 +1,77 @@
+Args: ['CNN_shake1.12.py']
+Using device: cuda
+Training Plain model...
+Epoch 1 | Plain Acc: 91.41%
+Epoch 2 | Plain Acc: 93.41%
+Epoch 3 | Plain Acc: 95.51%
+Epoch 4 | Plain Acc: 96.08%
+Epoch 5 | Plain Acc: 96.87%
+Training ShakeAug model...
+Epoch 1 | ShakeAug Acc: 92.84%
+Epoch 2 | ShakeAug Acc: 95.39%
+Epoch 3 | ShakeAug Acc: 96.83%
+Epoch 4 | ShakeAug Acc: 97.50%
+Epoch 5 | ShakeAug Acc: 97.86%
+Training RandomRotation model...
+Epoch 1 | RandomRotation Acc: 91.02%
+Epoch 2 | RandomRotation Acc: 93.10%
+Epoch 3 | RandomRotation Acc: 94.76%
+Epoch 4 | RandomRotation Acc: 95.91%
+Epoch 5 | RandomRotation Acc: 96.87%
+Training RandomHorizontalFlip model...
+Epoch 1 | RandomHorizontalFlip Acc: 44.46%
+Epoch 2 | RandomHorizontalFlip Acc: 39.88%
+Epoch 3 | RandomHorizontalFlip Acc: 40.40%
+Epoch 4 | RandomHorizontalFlip Acc: 37.68%
+Epoch 5 | RandomHorizontalFlip Acc: 36.65%
+
+================ Auto Experiment Summary ================
+
+[Model]
+ConvNet(
+  (conv1): Conv2d(1, 10, kernel_size=(5, 5), stride=(1, 1))
+  (conv2): Conv2d(10, 20, kernel_size=(3, 3), stride=(1, 1))
+  (fc1): Linear(in_features=2000, out_features=500, bias=True)
+  (fc2): Linear(in_features=500, out_features=10, bias=True)
+)
+Total params: 1007590
+Trainable params: 1007590
+
+[Dataset]
+Class: MNIST
+Length: 60000
+Library: torchvision.datasets
+
+[ShakeAug]
+Recipe 0:
+  N: 2
+  beta: 0.5
+  alpha: 0.3
+  S: (4, 4)
+  offset: random
+  p_apply: 1.0
+
+[RandomRotation]
+Degrees range: (0, 5)
+Max rotation angle: 5
+
+[RandomHorizontalFlip]
+Flip probability p: 1
+
+[Training]
+Batch size: 256
+Epochs: 5
+Optimizer: Adam
+  lr: 0.0001
+  betas: (0.9, 0.999)
+  eps: 1e-08
+  weight_decay: 0
+  amsgrad: False
+  maximize: False
+  foreach: None
+  capturable: False
+  differentiable: False
+  fused: None
+  decoupled_weight_decay: False
+=========================================================
+
