@@ -1,0 +1,36 @@
+different beta
+Recipe(N=2, beta=0.1, alpha=0.3, S=(2,2)) | Acc=92.09%
+Recipe(N=2, beta=0.1, alpha=0.3, S=(2,2)) | Acc=93.16%
+Recipe(N=2, beta=0.1, alpha=0.3, S=(2,2)) | Acc=92.27%
+--------------
+Recipe(N=2, beta=0.2, alpha=0.3, S=(2,2)) | Acc=93.11%
+Recipe(N=2, beta=0.2, alpha=0.3, S=(2,2)) | Acc=92.93%
+Recipe(N=2, beta=0.2, alpha=0.3, S=(2,2)) | Acc=93.30%
+--------------
+Recipe(N=2, beta=0.3, alpha=0.3, S=(2,2)) | Acc=92.94%
+Recipe(N=2, beta=0.3, alpha=0.3, S=(2,2)) | Acc=92.50%
+Recipe(N=2, beta=0.3, alpha=0.3, S=(2,2)) | Acc=92.24%
+--------------
+Recipe(N=2, beta=0.4, alpha=0.3, S=(2,2)) | Acc=93.90%
+Recipe(N=2, beta=0.4, alpha=0.3, S=(2,2)) | Acc=93.06%
+Recipe(N=2, beta=0.4, alpha=0.3, S=(2,2)) | Acc=92.62%
+--------------
+Recipe(N=2, beta=0.5, alpha=0.3, S=(2,2)) | Acc=93.87%
+Recipe(N=2, beta=0.5, alpha=0.3, S=(2,2)) | Acc=93.02%
+Recipe(N=2, beta=0.5, alpha=0.3, S=(2,2)) | Acc=92.82%
+--------------
+Recipe(N=2, beta=0.6, alpha=0.3, S=(2,2)) | Acc=93.28%
+Recipe(N=2, beta=0.6, alpha=0.3, S=(2,2)) | Acc=92.21%
+Recipe(N=2, beta=0.6, alpha=0.3, S=(2,2)) | Acc=92.84%
+--------------
+Recipe(N=2, beta=0.7, alpha=0.3, S=(2,2)) | Acc=93.34%
+Recipe(N=2, beta=0.7, alpha=0.3, S=(2,2)) | Acc=92.62%
+Recipe(N=2, beta=0.7, alpha=0.3, S=(2,2)) | Acc=92.67%
+--------------
+Recipe(N=2, beta=0.8, alpha=0.3, S=(2,2)) | Acc=92.52%
+Recipe(N=2, beta=0.8, alpha=0.3, S=(2,2)) | Acc=91.95%
+Recipe(N=2, beta=0.8, alpha=0.3, S=(2,2)) | Acc=94.00%
+--------------
+Recipe(N=2, beta=0.9, alpha=0.3, S=(2,2)) | Acc=93.05%
+Recipe(N=2, beta=0.9, alpha=0.3, S=(2,2)) | Acc=92.29%
+Recipe(N=2, beta=0.9, alpha=0.3, S=(2,2)) | Acc=91.93%
