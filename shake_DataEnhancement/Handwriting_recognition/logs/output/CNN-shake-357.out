@@ -1,0 +1,8 @@
+Args: ['CNN_shake1.09_test.py']
+Using device: cuda
+Starting training aug model...
+Epoch  1 | Test(Aug): 93.16%
+Epoch  2 | Test(Aug): 96.10%
+Epoch  3 | Test(Aug): 97.35%
+Epoch  4 | Test(Aug): 97.98%
+Epoch  5 | Test(Aug): 98.23%
