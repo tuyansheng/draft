@@ -81,29 +81,35 @@ class QuantumCircuitGenerator:
 
     # ---------- seed → Hamiltonian ----------
     def hamiltonian_from_seed(self, seed: int):
-        circuit = self.circuit_from_seed(seed)
-        static = []
+        if seed !=0:
+            circuit = self.circuit_from_seed(seed)
+            static = []
 
-        for q in range(self.cfg.L):
-            for t in range(self.cfg.depth):
-                g = circuit[q][t]
-                if g == "X":
-                    static.append(["x", [[1.0, q]]])
-                elif g == "Y":
-                    static.append(["y", [[1.0, q]]])
-                elif g == "Z":
-                    static.append(["z", [[1.0, q]]])
+            for q in range(self.cfg.L):
+                for t in range(self.cfg.depth):
+                    g = circuit[q][t]
+                    if g == "X":
+                        static.append(["x", [[1.0, q]]])
+                    elif g == "Y":
+                        static.append(["y", [[1.0, q]]])
+                    elif g == "Z":
+                        static.append(["z", [[1.0, q]]])
 
-        c = np.pi / 4.0
-        for q in range(self.cfg.L - 1):
-            for t in range(self.cfg.depth):
-                if circuit[q][t] == "CNOT":
-                    static.append(["z", [[-c, q]]])
-                    static.append(["x", [[-c, q + 1]]])
-                    static.append(["zx", [[+c, q, q + 1]]])
+            c = np.pi / 4.0
+            for q in range(self.cfg.L - 1):
+                for t in range(self.cfg.depth):
+                    if circuit[q][t] == "CNOT":
+                        static.append(["z", [[-c, q]]])
+                        static.append(["x", [[-c, q + 1]]])
+                        static.append(["zx", [[+c, q, q + 1]]])
 
-        H = hamiltonian(static, [], basis=self.basis, dtype=self.dtype)
-        return circuit, H
+            H = hamiltonian(static, [], basis=self.basis, dtype=self.dtype)
+            return circuit, H
+        elif seed ==0:
+            circuit = self.circuit_from_seed(seed)
+            static = [["I",[[1,0]]]]
+            H = hamiltonian(static, [], basis=self.basis, dtype=self.dtype)
+            return circuit, H
 
     # ---------- pretty print ----------
     def pretty_print(self, circuit: Circuit2D) -> None:
