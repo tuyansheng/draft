@@ -7,7 +7,7 @@ import pickle
 import random
 import sqlite3
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List
 
 import numpy as np
 from quspin.basis import spin_basis_1d
@@ -31,31 +31,30 @@ class CircuitGenConfig:
 
 
 # -------------------------
-# Generator: seed -> circuit -> Hamiltonian
+# Generator: seed → circuit → Hamiltonian
 # -------------------------
 class QuantumCircuitGenerator:
     def __init__(self, cfg: CircuitGenConfig, dtype=np.complex128):
+        if dtype not in (np.complex64, np.complex128, complex):
+            raise ValueError("包含 Y 门的线路必须使用复数 dtype")
+
         self.cfg = cfg
         self.dtype = dtype
         self.basis = spin_basis_1d(cfg.L)
 
-        if dtype not in (np.complex64, np.complex128, complex):
-            raise ValueError("包含 Y 门的线路必须使用复数 dtype")
-
     # ---------- validation ----------
     @staticmethod
-    def _validate_circuit(circuit: Circuit2D) -> Tuple[int, int]:
+    def _validate_circuit(circuit: Circuit2D) -> None:
         if not circuit or not all(isinstance(r, list) for r in circuit):
             raise ValueError("circuit 必须是二维 list")
 
-        L = len(circuit)
         T = len(circuit[0])
-        if T <= 0:
-            raise ValueError("depth 必须 > 0")
-        if any(len(r) != T for r in circuit):
-            raise ValueError("circuit 每一行长度必须一致")
+        if T <= 0 or any(len(r) != T for r in circuit):
+            raise ValueError("circuit 行长度必须一致且 depth > 0")
 
         allowed = {"I", "X", "Y", "Z", "CNOT"}
+        L = len(circuit)
+
         for q in range(L):
             for t in range(T):
                 if circuit[q][t] not in allowed:
@@ -69,9 +68,7 @@ class QuantumCircuitGenerator:
         if any(circuit[L - 1][t] == "CNOT" for t in range(T)):
             raise ValueError("最后一行不能放 CNOT")
 
-        return L, T
-
-    # ---------- seed -> circuit ----------
+    # ---------- seed → circuit ----------
     def circuit_from_seed(self, seed: int) -> Circuit2D:
         rng = random.Random(seed)
         L, T = self.cfg.L, self.cfg.depth
@@ -104,7 +101,7 @@ class QuantumCircuitGenerator:
         self._validate_circuit(circuit)
         return circuit
 
-    # ---------- seed -> Hamiltonian ----------
+    # ---------- seed → Hamiltonian ----------
     def hamiltonian_from_seed(self, seed: int):
         circuit = self.circuit_from_seed(seed)
         static = []
@@ -131,22 +128,25 @@ class QuantumCircuitGenerator:
         return circuit, H
 
     # ---------- pretty print ----------
-    def pretty_print(self, circuit: Circuit2D):
-        L, T = self._validate_circuit(circuit)
+    def pretty_print(self, circuit: Circuit2D) -> None:
+        self._validate_circuit(circuit)
+        T = len(circuit[0])
         print("     " + "".join(f"{t:>4}" for t in range(T)))
         print("     " + "----" * T)
-        for q in range(L):
-            print(f"q{q:02d} " + "".join(f"{circuit[q][t]:>4}" for t in range(T)))
+        for q, row in enumerate(circuit):
+            print(f"q{q:02d} " + "".join(f"{g:>4}" for g in row))
 
 
 # -------------------------
 # DB: one DB per (L, depth)
 # -------------------------
 class QuSpinCircuitDB:
-    def __init__(self, cfg: CircuitGenConfig):
+    def __init__(self, cfg: CircuitGenConfig, base_dir: str | None = None):
         self.cfg = cfg
 
-        base_dir = os.path.dirname(os.path.abspath(__file__))
+        if base_dir is None:
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+
         data_dir = os.path.join(base_dir, "data")
         os.makedirs(data_dir, exist_ok=True)
 
@@ -155,7 +155,7 @@ class QuSpinCircuitDB:
         )
         self._init_db()
 
-    def _init_db(self):
+    def _init_db(self) -> None:
         with sqlite3.connect(self.db_path) as con:
             con.execute(
                 """
@@ -194,7 +194,7 @@ class QuSpinCircuitDB:
 
 
 # -------------------------
-# Batch generation
+# Batch generation helper
 # -------------------------
 def generate_and_store_batch(
     gen: QuantumCircuitGenerator,
@@ -217,34 +217,3 @@ def generate_and_store_batch(
         seed += 1
 
     return inserted
-
-
-# -------------------------
-# Main: explicit checks
-# -------------------------
-if __name__ == "__main__":
-    cfg = CircuitGenConfig(L=5, depth=8)
-    gen = QuantumCircuitGenerator(cfg)
-    db = QuSpinCircuitDB(cfg)
-
-    # 1. Determinism check
-    c1 = gen.circuit_from_seed(42)
-    c2 = gen.circuit_from_seed(42)
-    assert c1 == c2, "同 seed 生成的线路不一致"
-
-    # 2. Hamiltonian construction check
-    _, H = gen.hamiltonian_from_seed(42)
-    assert H.Ns == spin_basis_1d(cfg.L).Ns, "Hilbert 空间维数错误"
-
-    # 3. Database insertion
-    inserted = generate_and_store_batch(gen, db, n=3)
-    print("Inserted:", inserted)
-
-    # 4. Load & inspect
-    seed_demo = 0
-    circuit = gen.circuit_from_seed(seed_demo)
-    gen.pretty_print(circuit)
-
-    H_loaded = db.load(seed_demo)
-    print("Hamiltonian type:", type(H_loaded))
-    print("Hilbert dimension:", H_loaded.Ns)
