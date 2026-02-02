@@ -4,7 +4,6 @@
 
 import os
 import pickle
-import random
 import sqlite3
 from dataclasses import dataclass
 from typing import List
@@ -25,13 +24,10 @@ Circuit2D = List[List[Gate]]
 class CircuitGenConfig:
     L: int
     depth: int
-    p_identity: float = 0.4
-    p_single_pauli: float = 0.4
-    p_cnot: float = 0.2
 
 
 # -------------------------
-# Generator: seed → circuit → Hamiltonian
+# Generator: seed → circuit → Hamiltonian (ENUMERATION)
 # -------------------------
 class QuantumCircuitGenerator:
     def __init__(self, cfg: CircuitGenConfig, dtype=np.complex128):
@@ -42,61 +38,46 @@ class QuantumCircuitGenerator:
         self.dtype = dtype
         self.basis = spin_basis_1d(cfg.L)
 
+        self.gate_map = ["I", "X", "Y", "Z", "CNOT"]
+        self.max_seed = 5 ** (cfg.L * cfg.depth)
+
     # ---------- validation ----------
     @staticmethod
     def _validate_circuit(circuit: Circuit2D) -> None:
-        if not circuit or not all(isinstance(r, list) for r in circuit):
-            raise ValueError("circuit 必须是二维 list")
-
-        T = len(circuit[0])
-        if T <= 0 or any(len(r) != T for r in circuit):
-            raise ValueError("circuit 行长度必须一致且 depth > 0")
-
-        allowed = {"I", "X", "Y", "Z", "CNOT"}
         L = len(circuit)
-
-        for q in range(L):
-            for t in range(T):
-                if circuit[q][t] not in allowed:
-                    raise ValueError(f"非法门 {circuit[q][t]}")
+        T = len(circuit[0])
 
         for q in range(L - 1):
             for t in range(T):
                 if circuit[q][t] == "CNOT" and circuit[q + 1][t] != "I":
-                    raise ValueError("CNOT 下一行必须是 I")
+                    raise ValueError("非法线路：CNOT 下一行必须是 I")
 
         if any(circuit[L - 1][t] == "CNOT" for t in range(T)):
-            raise ValueError("最后一行不能放 CNOT")
+            raise ValueError("非法线路：最后一行不能放 CNOT")
 
-    # ---------- seed → circuit ----------
+    # ---------- seed → circuit (base-5 enumeration) ----------
     def circuit_from_seed(self, seed: int) -> Circuit2D:
-        rng = random.Random(seed)
+        if seed < 0 or seed >= self.max_seed:
+            raise ValueError(
+                f"seed 超出范围，应满足 0 <= seed < {self.max_seed}"
+            )
+
         L, T = self.cfg.L, self.cfg.depth
+
+        # base-5 展开
+        digits = []
+        x = seed
+        for _ in range(L * T):
+            digits.append(x % 5)
+            x //= 5
+
+        # 构造线路（t 优先，再 q）
         circuit: Circuit2D = [["I"] * T for _ in range(L)]
-
+        idx = 0
         for t in range(T):
-            q = 0
-            while q < L:
-                if q == L - 1:
-                    circuit[q][t] = rng.choice(["I", "X", "Y", "Z"])
-                    q += 1
-                    continue
-
-                r = rng.random()
-                if r < self.cfg.p_identity:
-                    g = "I"
-                elif r < self.cfg.p_identity + self.cfg.p_single_pauli:
-                    g = rng.choice(["X", "Y", "Z"])
-                else:
-                    g = "CNOT"
-
-                if g == "CNOT":
-                    circuit[q][t] = "CNOT"
-                    circuit[q + 1][t] = "I"
-                    q += 2
-                else:
-                    circuit[q][t] = g
-                    q += 1
+            for q in range(L):
+                circuit[q][t] = self.gate_map[digits[idx]]
+                idx += 1
 
         self._validate_circuit(circuit)
         return circuit
@@ -129,7 +110,6 @@ class QuantumCircuitGenerator:
 
     # ---------- pretty print ----------
     def pretty_print(self, circuit: Circuit2D) -> None:
-        self._validate_circuit(circuit)
         T = len(circuit[0])
         print("     " + "".join(f"{t:>4}" for t in range(T)))
         print("     " + "----" * T)
@@ -194,7 +174,7 @@ class QuSpinCircuitDB:
 
 
 # -------------------------
-# Batch generation helper
+# Batch enumeration helper
 # -------------------------
 def generate_and_store_batch(
     gen: QuantumCircuitGenerator,
@@ -205,12 +185,17 @@ def generate_and_store_batch(
     inserted = 0
     seed = seed_start
 
-    while inserted < n:
+    while inserted < n and seed < gen.max_seed:
         if db.has_seed(seed):
             seed += 1
             continue
 
-        _, H = gen.hamiltonian_from_seed(seed)
+        try:
+            _, H = gen.hamiltonian_from_seed(seed)
+        except ValueError:
+            seed += 1
+            continue  # 非法线路，跳过
+
         if db.insert(seed, H):
             inserted += 1
 
