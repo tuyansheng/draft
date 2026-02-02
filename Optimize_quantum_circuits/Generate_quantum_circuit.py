@@ -2,9 +2,6 @@
 # Generate_quantum_circuit.py
 # =========================
 
-import os
-import pickle
-import sqlite3
 from dataclasses import dataclass
 from typing import List
 
@@ -115,90 +112,3 @@ class QuantumCircuitGenerator:
         print("     " + "----" * T)
         for q, row in enumerate(circuit):
             print(f"q{q:02d} " + "".join(f"{g:>4}" for g in row))
-
-
-# -------------------------
-# DB: one DB per (L, depth)
-# -------------------------
-class QuSpinCircuitDB:
-    def __init__(self, cfg: CircuitGenConfig, base_dir: str | None = None):
-        self.cfg = cfg
-
-        if base_dir is None:
-            base_dir = os.path.dirname(os.path.abspath(__file__))
-
-        data_dir = os.path.join(base_dir, "data")
-        os.makedirs(data_dir, exist_ok=True)
-
-        self.db_path = os.path.join(
-            data_dir, f"circuits_L{cfg.L}_T{cfg.depth}.db"
-        )
-        self._init_db()
-
-    def _init_db(self) -> None:
-        with sqlite3.connect(self.db_path) as con:
-            con.execute(
-                """
-                CREATE TABLE IF NOT EXISTS circuits (
-                    seed INTEGER PRIMARY KEY,
-                    hamiltonian_blob BLOB NOT NULL
-                );
-                """
-            )
-            con.commit()
-
-    def has_seed(self, seed: int) -> bool:
-        with sqlite3.connect(self.db_path) as con:
-            return con.execute(
-                "SELECT 1 FROM circuits WHERE seed=? LIMIT 1",
-                (seed,),
-            ).fetchone() is not None
-
-    def insert(self, seed: int, H) -> bool:
-        blob = pickle.dumps(H, protocol=pickle.HIGHEST_PROTOCOL)
-        with sqlite3.connect(self.db_path) as con:
-            cur = con.execute(
-                "INSERT OR IGNORE INTO circuits VALUES (?, ?)",
-                (seed, sqlite3.Binary(blob)),
-            )
-            con.commit()
-        return cur.rowcount == 1
-
-    def load(self, seed: int):
-        with sqlite3.connect(self.db_path) as con:
-            row = con.execute(
-                "SELECT hamiltonian_blob FROM circuits WHERE seed=?",
-                (seed,),
-            ).fetchone()
-        return pickle.loads(row[0]) if row else None
-
-
-# -------------------------
-# Batch enumeration helper
-# -------------------------
-def generate_and_store_batch(
-    gen: QuantumCircuitGenerator,
-    db: QuSpinCircuitDB,
-    n: int,
-    seed_start: int = 0,
-) -> int:
-    inserted = 0
-    seed = seed_start
-
-    while inserted < n and seed < gen.max_seed:
-        if db.has_seed(seed):
-            seed += 1
-            continue
-
-        try:
-            _, H = gen.hamiltonian_from_seed(seed)
-        except ValueError:
-            seed += 1
-            continue  # 非法线路，跳过
-
-        if db.insert(seed, H):
-            inserted += 1
-
-        seed += 1
-
-    return inserted
