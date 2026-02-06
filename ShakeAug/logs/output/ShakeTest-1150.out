@@ -1,0 +1,18 @@
+Job started at: 2026-02-05 21:27:15
+Running on node: ws2
+Job ID: 1150
+========================================
+CUDA available: True | use_gpu: True
+Args in experiment:
+Namespace(dataset='mnist', model='ResNet_18', checkpoints='./checkpoints', aug_mode='none', trad_repeat=1, exp_mode='fair', shake_k=1, shake_N=2, shake_beta=0.03, shake_alpha=0.2, shake_cell_h=8, shake_cell_w=8, shake_p_apply=1.0, shake_offset='random_each_iter', shake_dynamic=True, shake_base_seed=0, train_data_path='./Train', test_data_path='./Test', img_size=224, num_class=10, train_epochs=20, learning_rate=0.0001, batch_size=32, lradj='cosine', num_workers=8, patience=7, earlystop_delta=0.0, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0')
+>>>>>>>>>>>>>>>>Start Training>>>>>>>>>>>>>>>
+Setting: dataset_mnist_model_ResNet_18_lr0.0001_bs32_epochs20
+GPU: 0
+Training epochs: 20
+Batch size: 32
+Learning rate: 0.0001
+Image size: 224
+num_class: 10
+Use GPU: cuda:0
+========================================
+Job elapsed time: 0h 0m 2s

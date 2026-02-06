@@ -1,0 +1,9 @@
+Job started at: 2026-02-05 21:57:48
+Running on node: ws2
+Job ID: 1153
+========================================
+Downloading MNIST...
+Downloading CIFAR-10...
+Downloading CIFAR-100...
+All datasets downloaded successfully.
+Datasets are stored in: /home/ystu/ImageData

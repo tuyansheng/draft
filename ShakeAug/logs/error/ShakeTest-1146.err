@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/ystu/research_code/Machine_Learning/ShakeAug/run.py", line 4, in <module>
+    from exp.exp_main import Experiment_Main
+  File "/home/ystu/research_code/Machine_Learning/ShakeAug/exp/exp_main.py", line 15, in <module>
+    from exp.exp_basic import Experiment_Basic
+  File "/home/ystu/research_code/Machine_Learning/ShakeAug/exp/exp_basic.py", line 8, in <module>
+    from models.PerViT import pervit_tiny, pervit_small, pervit_medium
+  File "/home/ystu/research_code/Machine_Learning/ShakeAug/models/PerViT.py", line 7, in <module>
+    from einops import rearrange, repeat
+ModuleNotFoundError: No module named 'einops'
