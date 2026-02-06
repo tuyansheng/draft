@@ -32,7 +32,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Main Program')
 
     # basic config
-    parser.add_argument('--dataset', type=str, default = 'mnist',choices = ['mnist', 'cifar10', 'cifar100', 'imagenet'], help = 'dataset name')
+    parser.add_argument('--dataset', type=str, default = 'cifar10',choices = ['mnist', 'cifar10', 'cifar100', 'imagenet'], help = 'dataset name')
     parser.add_argument('--model', type=str, default = 'ResNet_18', help='model name')
     parser.add_argument('--checkpoints', type=str, default = './checkpoints', help='checkpoints path')
     parser.add_argument('--aug_mode', type=str, default='traditional', choices=['none', 'traditional', 'shake'], help='augmentation mode: none (baseline), traditional (typical augmentation), shake (our method)')

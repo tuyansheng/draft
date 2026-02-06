@@ -32,7 +32,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Main Program')
 
     # basic config
-    parser.add_argument('--dataset', type=str, default = 'mnist',choices = ['mnist', 'cifar10', 'cifar100', 'imagenet'], help = 'dataset name')
+    parser.add_argument('--dataset', type=str, default = 'cifar10',choices = ['mnist', 'cifar10', 'cifar100', 'imagenet'], help = 'dataset name')
     parser.add_argument('--model', type=str, default = 'ResNet_18', help='model name')
     parser.add_argument('--checkpoints', type=str, default = './checkpoints', help='checkpoints path')
     parser.add_argument('--aug_mode', type=str, default='traditional', choices=['none', 'traditional', 'shake'], help='augmentation mode: none (baseline), traditional (typical augmentation), shake (our method)')
@@ -60,13 +60,8 @@ if __name__ == '__main__':
     train_data_path: /media/Ws2_4TB/PublicDataset/MNIST/raw
     test_data_path: /media/Ws2_4TB/PublicDataset/MNIST/raw
 
-    CIFAR-10:
-    train_data_path: /media/Ws2_4TB/PublicDataset/CIFAR-10/data
-    test_data_path: /media/Ws2_4TB/PublicDataset/CIFAR-10/data
-
-    CIFAR-100:
-    train_data_path: /media/Ws2_4TB/PublicDataset/CIFAR-100/data
-    test_data_path: /media/Ws2_4TB/PublicDataset/CIFAR-100/data
+    CIFAR-10/100:
+    
     """
 
     # image size and number classes

@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/home/ystu/research_code/Machine_Learning/ShakeAug/run.py", line 4, in <module>
-    from exp.exp_main import Experiment_Main
-  File "/home/ystu/research_code/Machine_Learning/ShakeAug/exp/exp_main.py", line 16, in <module>
-    from utils.tools import EarlyStopping, adjust_learning_rate, cal_metrics, get_results_path, save_metrics_to_csv, plot_loss_curve, plot_roc_curve
-  File "/home/ystu/research_code/Machine_Learning/ShakeAug/utils/tools.py", line 8, in <module>
-    from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score,classification_report
-ModuleNotFoundError: No module named 'sklearn'
