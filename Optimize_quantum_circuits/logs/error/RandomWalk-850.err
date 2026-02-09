@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "/home/ystu/research_code/Machine_Learning/1D_random_walk_reversal.py", line 28, in <module>
-    def markoff_step(state, n_spatial=n_spatial):
-NameError: name 'n_spatial' is not defined

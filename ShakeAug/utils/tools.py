@@ -29,7 +29,7 @@ class EarlyStopping:
         self.counter = 0
         self.best_score = None
         self.early_stop = False
-        self.best_acc = -np.Inf
+        self.best_acc = -np.inf
 
         self._last_acc_ckpt_path = None  # track last "acc-named" ckpt
 

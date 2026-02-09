@@ -109,7 +109,9 @@ class Experiment_Main(Experiment_Basic):
         _ = self._get_data(flag="TRAIN")
         _ = self._get_data(flag="TEST")
 
-        model = self.model_dict[self.args.model].Model(self.args).float()
+        # model = self.model_dict[self.args.model].Model(self.args).float()
+        model_cls = self.model_dict[self.args.model]
+        model = model_cls(self.args.num_class).float()
         if self.args.use_multi_gpu and self.args.use_gpu:
             model = nn.DataParallel(model, device_ids=self.args.device_ids)
         return model

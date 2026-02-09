@@ -38,7 +38,6 @@ if __name__ == '__main__':
     parser.add_argument('--aug_mode', type=str, default='traditional', choices=['none', 'traditional', 'shake'], help='augmentation mode: none (baseline), traditional (typical augmentation), shake (our method)')
     parser.add_argument('--trad_repeat', type=int, default=1, help='RepeatAug factor for traditional mode. ''1 means no expansion; >1 expands to R*N.')
     parser.add_argument('--exp_mode', type=str, default='fair',choices=['fair', 'expand'], help='fair: all methods use N samples; expand: allow dataset expansion')
-    parser.add_argument('--trad_repeat', type=int, default=1, help='RepeatAug factor for traditional in expand mode (R).')
     
     # shake parameters
     parser.add_argument('--shake_k', type=int, default=1, help='number of recipes (K)')
@@ -53,8 +52,8 @@ if __name__ == '__main__':
     parser.add_argument('--shake_base_seed', type=int, default=0)
     
     # data paths
-    parser.add_argument('--train_data_path', type=str, default='./Train', help='train dataset path')
-    parser.add_argument('--test_data_path', type=str, default='./Test', help='test dataset path')
+    parser.add_argument('--train_data_path', type=str, default='/media/Ws2_4TB/PublicDataset', help='train dataset path')
+    parser.add_argument('--test_data_path', type=str, default='/media/Ws2_4TB/PublicDataset', help='test dataset path')
     """
     MNIST: 
     train_data_path: /media/Ws2_4TB/PublicDataset/MNIST/raw
