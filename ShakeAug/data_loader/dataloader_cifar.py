@@ -13,9 +13,9 @@ class CIFARDataset(Dataset):
         self.transform = transform
 
         if self.dataset == "cifar10":
-            base = tv_datasets.CIFAR10(root=self.root, train=self.train, transform=None, download=False)
+            base = tv_datasets.CIFAR10(root=self.root, train=self.train, transform=None, download=True)
         elif self.dataset == "cifar100":
-            base = tv_datasets.CIFAR100(root=self.root, train=self.train, transform=None, download=False)
+            base = tv_datasets.CIFAR100(root=self.root, train=self.train, transform=None, download=True)
         
         else:
             raise ValueError("dataset must be 'cifar10' or 'cifar100'")

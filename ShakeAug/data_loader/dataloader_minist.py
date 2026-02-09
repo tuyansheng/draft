@@ -13,7 +13,7 @@ class MNISTDataset(Dataset):
         self.train = train
         self.transform = transform
 
-        base = tv_datasets.MNIST(root=self.root, train=self.train, transform=None, download=False)
+        base = tv_datasets.MNIST(root=self.root, train=self.train, transform=None, download=True)
 
 
         # base.data: torch.Tensor [N, 28, 28] (uint8)
