@@ -98,49 +98,34 @@ class VGG(nn.Module):
                 nn.init.constant_(module.bias, 0)
 
 
-def vgg11(**kwargs) -> VGG:
-    model = VGG(vgg_cfgs["vgg11"], False, **kwargs)
-
+def vgg11(num_classes: int = 1000, **kwargs) -> VGG:
+    model = VGG(vgg_cfgs["vgg11"], False, num_classes=num_classes, **kwargs)
     return model
 
-
-def vgg13(**kwargs) -> VGG:
-    model = VGG(vgg_cfgs["vgg13"], False, **kwargs)
-
+def vgg13(num_classes: int = 1000, **kwargs) -> VGG:
+    model = VGG(vgg_cfgs["vgg13"], False, num_classes=num_classes, **kwargs)
     return model
 
-
-def vgg16(**kwargs) -> VGG:
-    model = VGG(vgg_cfgs["vgg16"], False, **kwargs)
-
+def vgg16(num_classes: int = 1000, **kwargs) -> VGG:
+    model = VGG(vgg_cfgs["vgg16"], False, num_classes=num_classes, **kwargs)
     return model
 
-
-def vgg19(**kwargs) -> VGG:
-    model = VGG(vgg_cfgs["vgg19"], False, **kwargs)
-
+def vgg19(num_classes: int = 1000, **kwargs) -> VGG:
+    model = VGG(vgg_cfgs["vgg19"], False, num_classes=num_classes, **kwargs)
     return model
 
-
-def vgg11_bn(**kwargs) -> VGG:
-    model = VGG(vgg_cfgs["vgg11"], True, **kwargs)
-
+def vgg11_bn(num_classes: int = 1000, **kwargs) -> VGG:
+    model = VGG(vgg_cfgs["vgg11"], True, num_classes=num_classes, **kwargs)
     return model
 
-
-def vgg13_bn(**kwargs) -> VGG:
-    model = VGG(vgg_cfgs["vgg13"], True, **kwargs)
-
+def vgg13_bn(num_classes: int = 1000, **kwargs) -> VGG:
+    model = VGG(vgg_cfgs["vgg13"], True, num_classes=num_classes, **kwargs)
     return model
 
-
-def vgg16_bn(**kwargs) -> VGG:
-    model = VGG(vgg_cfgs["vgg16"], True, **kwargs)
-
+def vgg16_bn(num_classes: int = 1000, **kwargs) -> VGG:
+    model = VGG(vgg_cfgs["vgg16"], True, num_classes=num_classes, **kwargs)
     return model
 
-
-def vgg19_bn(**kwargs) -> VGG:
-    model = VGG(vgg_cfgs["vgg19"], True, **kwargs)
-
+def vgg19_bn(num_classes: int = 1000, **kwargs) -> VGG:
+    model = VGG(vgg_cfgs["vgg19"], True, num_classes=num_classes, **kwargs)
     return model
