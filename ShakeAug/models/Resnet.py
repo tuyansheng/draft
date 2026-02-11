@@ -133,7 +133,7 @@ class ResNet(nn.Module):
         self.groups = groups
         self.base_channels = channels_per_group
 
-        self.conv1 = nn.Conv2d(1, self.in_channels, (7, 7), (2, 2), (3, 3), bias=False)
+        self.conv1 = nn.Conv2d(3, self.in_channels, (7, 7), (2, 2), (3, 3), bias=False)
         self.bn1 = nn.BatchNorm2d(self.in_channels)
         self.relu = nn.ReLU(True)
         self.maxpool = nn.MaxPool2d((3, 3), (2, 2), (1, 1))
